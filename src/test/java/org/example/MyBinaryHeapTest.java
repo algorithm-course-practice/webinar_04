@@ -2,6 +2,10 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyBinaryHeapTest {
@@ -33,17 +37,23 @@ class MyBinaryHeapTest {
     @Test
     void insertArray() {
         heap.isDbg = true;
-        heap.add(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        assertTrees(
-                "               [0]9          \n" +
-                "         ┌──────┴──────┐     \n" +
-                "        [1]8          [2]6   \n" +
-                "    ┌────┴────┐     ┌──┴──┐  \n" +
-                "   [3]7      [4]4  [5]5  [6]2\n" +
-                " ┌──┴──┐     ┌┘              \n" +
-                "[7]0  [8]3  [9]1             \n",
-                heap.print()
-        );
+        List<Integer> list = asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Collections.shuffle(list);
+        heap.add(list.toArray(Integer[]::new));
+//        assertTrees(
+//                "               [0]9          \n" +
+//                "         ┌──────┴──────┐     \n" +
+//                "        [1]8          [2]6   \n" +
+//                "    ┌────┴────┐     ┌──┴──┐  \n" +
+//                "   [3]7      [4]4  [5]5  [6]2\n" +
+//                " ┌──┴──┐     ┌┘              \n" +
+//                "[7]0  [8]3  [9]1             \n",
+//                heap.print()
+//        );
+        for(int i = 9; i >= 0; i--) {
+            assertEquals(i, heap.remove());
+            assertEquals(i, heap.size());
+        }
     }
 
     private void assertTrees(String print, String actual) {
